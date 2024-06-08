@@ -38,12 +38,14 @@ public class MessageController {
 
     @PostMapping
     public ResponseEntity<Message> createMessage(@RequestBody Message message) {
-        Optional<Room> room = roomRepository.findById(message.getRoom().getRoomId());
-        Optional<User> user = userRepository.findById(message.getUser().getUserId());
+        int roomId = message.getRoom().getRoomId();
+        int userId = message.getUser().getUserId();
 
-        if (room.isPresent() && user.isPresent()) {
-            message.setRoom(room.get());
-            message.setUser(user.get());
+        if (roomRepository.findById(roomId).isPresent() && userRepository.findById(userId).isPresent()) {
+            message.setRoom(new Room(roomId));  // Set the room using only the ID
+            message.setUser(new User(userId));  // Set the user using only the ID
+//            message.setRoom(room.get());
+//            message.setUser(user.get());
             Message savedMessage = messageRepository.save(message);
             return ResponseEntity.ok(savedMessage);
         } else {
@@ -57,7 +59,7 @@ public class MessageController {
         if (message.isPresent()) {
             Message updatedMessage = message.get();
             updatedMessage.setMessageText(messageDetails.getMessageText());
-            updatedMessage.setCreatedAt(messageDetails.getCreatedAt());
+            // Add lines to update other properties if needed
             messageRepository.save(updatedMessage);
             return ResponseEntity.ok(updatedMessage);
         } else {

@@ -1,5 +1,7 @@
 package com.grouppy.spring;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 
@@ -12,10 +14,12 @@ public class UserRoom {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
+    @JsonIgnore
     private Room room;
 
     private Timestamp joinedAt;

@@ -19,6 +19,14 @@ public class User {
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
+    public User() {
+        // Default constructor
+    }
+
+    public User(int userId) {
+        this.userId = userId;
+    }
+
     // Getter and Setter for userId
     public int getUserId() {
         return userId;

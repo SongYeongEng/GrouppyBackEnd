@@ -1,5 +1,6 @@
 package com.grouppy.spring;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -19,10 +20,20 @@ public class Room {
     private int maxPerson;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Message> messages;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<UserRoom> userRooms;
+
+    public Room() {
+        // Default constructor
+    }
+
+    public Room(int roomId) {
+        this.roomId = roomId;
+    }
 
     // Getters and Setters
     public int getRoomId() {
