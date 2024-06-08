@@ -1,50 +1,68 @@
 package com.grouppy.spring;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
+
+import java.sql.Timestamp;
 
 @Entity
-@Table(name = "messages")
+@Table(name = "Messages")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int sender_id;
-    private String content;
+    private int messageId;
 
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    @JsonBackReference
+    private Room room;
 
-    // Constructors, getters, and setters
-    public Message() {}
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    public Message(String content, int sender_id) {
-        this.content = content;
-        this.sender_id = sender_id;
+    private String messageText;
+
+    private Timestamp createdAt;
+
+    // Getters and Setters
+    public int getMessageId() {
+        return messageId;
     }
 
-    public int getId() {
-        return id;
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Room getRoom() {
+        return room;
     }
 
-    public String getContent() {
-        return content;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public User getUser() {
+        return user;
     }
 
-    public int getSender() {
-        return sender_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setSender(int sender) {
-        this.sender_id = sender_id;
+    public String getMessageText() {
+        return messageText;
+    }
+
+    public void setMessageText(String messageText) {
+        this.messageText = messageText;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 }
