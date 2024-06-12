@@ -3,8 +3,8 @@ package com.grouppy.spring;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.sql.Timestamp;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,10 +12,12 @@ import java.util.Optional;
 @RequestMapping("/rooms")
 public class RoomController {
     private final RoomRepository roomRepository;
+    private final RoomService roomService;
 
     @Autowired
-    public RoomController(RoomRepository roomRepository) {
+    public RoomController(RoomRepository roomRepository, RoomService roomService) {
         this.roomRepository = roomRepository;
+        this.roomService = roomService;
     }
 
     @GetMapping
@@ -63,6 +65,16 @@ public class RoomController {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("/{roomId}/join")
+    public ResponseEntity<String> joinRoom(@PathVariable int roomId, @RequestParam int userId) {
+        String result = roomService.joinRoom(userId, roomId);
+        if (result.equals("User joined the room successfully")) {
+            return ResponseEntity.ok(result);
+        } else {
+            return ResponseEntity.badRequest().body(result);
         }
     }
 }

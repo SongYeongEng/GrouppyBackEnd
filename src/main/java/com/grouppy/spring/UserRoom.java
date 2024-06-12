@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 public class UserRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_room_id")
     private int userRoomId;
 
     @ManyToOne
